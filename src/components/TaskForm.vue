@@ -1,16 +1,13 @@
 <script setup lang="ts">
 import { useTaskStore } from '@/stores/TaskStoreComposition'
-import type { EitherTask, Task } from '@/types'
+import type { NewTask, Task } from '@/types'
 import { ref } from 'vue'
 
 const taskStore = useTaskStore()
 
-const newTask = ref<EitherTask>({ id: undefined, title: '', isFav: false })
+const newTask = ref<NewTask>({ title: '', isFav: false })
 
 function handleSubmit(event: Event) {
-  const ids = taskStore.tasks.map((t) => t.id)
-
-  newTask.value.id = Math.max(...ids) + 1
   taskStore.addTask(newTask.value as Task)
 }
 </script>

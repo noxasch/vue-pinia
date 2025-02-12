@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import TaskDetails from './components/TaskDetails.vue'
 import { useTaskStore } from './stores/TaskStoreComposition'
 import TaskForm from './components/TaskForm.vue'
@@ -9,6 +9,10 @@ const taskStore = useTaskStore()
 type FilterState = 'all' | 'fav'
 
 const filter = ref<FilterState>('all')
+
+onMounted(async () => {
+  taskStore.getTasks()
+})
 </script>
 
 <template>
@@ -35,6 +39,11 @@ const filter = ref<FilterState>('all')
       Fav Task
     </button>
   </nav>
+
+  <div
+    class="m-[30px_auto] max-w-[640px] border border-[#ffd859] bg-[#3a3a3a] p-[5px_0] text-center text-[#3a3a3a]"
+    v-if="taskStore.isLoading"
+  ></div>
 
   <main>
     <div v-if="filter === 'all'" class="mx-auto my-[20px] max-w-[640px]">

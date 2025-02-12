@@ -10,4 +10,7 @@ export interface Task {
   isFav: boolean
 }
 
-export type EitherTask = Task | EmptyTask
+export interface NewTask {
+  title: string
+  isFav: boolean
+}
