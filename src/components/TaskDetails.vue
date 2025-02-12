@@ -1,10 +1,21 @@
 <script setup lang="ts">
-import type { Task } from '@/stores/TaskStoreComposition'
+import { useTaskStore } from '@/stores/TaskStoreComposition'
+import type { Task } from '@/types'
 import { Icon } from '@iconify/vue'
 
-defineProps<{
+const props = defineProps<{
   task: Task
 }>()
+
+const taskStore = useTaskStore()
+
+function handleDelete() {
+  taskStore.deleteTask(props.task.id)
+}
+
+function handleFav() {
+  taskStore.toggleFav(props.task.id)
+}
 </script>
 
 <template>
@@ -13,8 +24,17 @@ defineProps<{
   >
     <h3 class="inline-block">{{ task.title }}</h3>
     <div class="inline-block text-right">
-      <Icon class="ml-[6px] cursor-pointer text-[1.4em] text-[#bbb]" icon="mdi:bin"></Icon>
-      <Icon class="ml-[6px] cursor-pointer text-[1.4em] text-[#bbb]" icon="mdi:heart"></Icon>
+      <Icon
+        class="ml-[6px] cursor-pointer text-[1.4em] text-[#bbb]"
+        icon="mdi:bin"
+        @click="handleDelete"
+      ></Icon>
+      <Icon
+        class="ml-[6px] cursor-pointer text-[1.4em] text-[#bbb]"
+        icon="mdi:heart"
+        :color="task.isFav ? '#ff005d' : undefined"
+        @click="handleFav"
+      ></Icon>
     </div>
   </div>
 </template>
